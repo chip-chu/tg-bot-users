@@ -11,7 +11,8 @@ def insert_user_to_db(message):
         instance = User.create(group_name=group_name,
                                user_id=user_id,
                                user_name=user_name,
-                               user_mention=user_mention
+                               user_mention=user_mention,
+                               welcome_status=True
                                )
         return instance
 

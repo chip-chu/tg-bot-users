@@ -25,6 +25,7 @@ class User(BaseModel):
     user_id = IntegerField(unique=True)
     user_name = CharField()
     user_mention = CharField()
+    welcome_status = BooleanField(default=False)#TODO новый параметр
     current_time = DateTimeField(default=datetime.now)
 
 
