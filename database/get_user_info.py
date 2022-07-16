@@ -25,3 +25,13 @@ def get_message_ids():
                 .select()
                 .where(UserCounter.deleted == False)
                 )
+
+
+def get_users_without_greetings():
+    with db:
+        return (User
+                .select(User, UserCounter)
+                .join(UserCounter)
+                .where(User.welcome_status is False)
+                .get()
+                )

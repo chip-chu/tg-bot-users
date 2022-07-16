@@ -38,7 +38,7 @@ def anniversary_list(message: Message):
                 f'🕐{user.current_time.strftime("%d.%m.%Y %H:%M:%S")}')
         msg = bot.send_message(chat_id=message.chat.id,
                                text=text,
-                               reply_markup=congratulate_userv2(user.user_id)
+                               reply_markup=congratulate_userv2(user.user_id),
                                )
         messages.append(msg.message_id)
 
@@ -49,7 +49,7 @@ def anniversary_list(message: Message):
 def anniversary_button_pressed(call: CallbackQuery):
     _, user_id = call.data.split(':')
     user = get_user_by_id(user_id)
-    bot.send_message(USERS_GROUP[0], get_greeting_text(counter=USER_THRESHOLD,  # TODO Костыль
+    bot.send_message(USERS_GROUP[0], get_greeting_text(counter=USER_THRESHOLD,
                                                        user=user,
                                                        to_user=True
                                                        )
@@ -64,3 +64,17 @@ def anniversary_button_pressed(call: CallbackQuery):
                               text='Письмецо улетело',
                               show_alert=True
                               )
+
+
+@bot.callback_query_handler(func=lambda callback: callback.data.startswith('miss_list'))
+def anniversary_button_pressed(call: CallbackQuery):
+    _, user_id = call.data.split(':')
+    query = get_message_ids()
+    for i in query:
+        bot.delete_message(chat_id=call.message.chat.id,
+                           message_id=i.message_id)
+    change_deleted_flag(related_field=query)
+
+    bot.answer_callback_query(callback_query_id=call.id,
+                              text='Пользователь добавлен в список не поздравленных',
+                              show_alert=True)
