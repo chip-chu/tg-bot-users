@@ -3,6 +3,8 @@ from pathlib import Path
 
 from dotenv import load_dotenv, find_dotenv
 
+from utils.validate_values import validate_env_values
+
 if not find_dotenv():
     exit('Переменные окружения не загружены')
 else:
@@ -15,12 +17,4 @@ COMMANDS = (
     ('users_history', "Показать историю поздравленных\не поздравленных"),
 )
 
-USER_THRESHOLD = 3
-ADMINISTRATORS_GROUP_ID = [
-    # -541752986,
-    -721998326,
-]
-USERS_GROUP = [
-    # -798504460,
-    -624689956,
-]
+USER_THRESHOLD, ADMINISTRATORS_GROUP_ID, USERS_GROUP = validate_env_values()
